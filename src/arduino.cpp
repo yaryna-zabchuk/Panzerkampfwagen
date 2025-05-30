@@ -102,12 +102,13 @@ class Motor {
     };
 
 
-Motor lMotor(9, 7, 6);
-Motor rMotor(10, 4, 5);
+Motor lMotor(9, 10, 5);
+Motor rMotor(11, 12, 6);
 Robot robot(lMotor, rMotor);
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(115200);
+
     Wire.begin();
     mpu.initialize();
 
@@ -119,7 +120,26 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  if (Serial.available()) {
+    char c = Serial.read();
+
+    if (c == 'f') {
+        robot.moveForward(255, 1, 1);
+        Serial.println("Moving forward");
+    } else if (c == 'b') {
+        robot.moveBackward(255, 1, 1);
+        Serial.println("Moving backward");
+    } else if (c == 'l') {
+        robot.rotateCounterClockwise(255);
+        Serial.println("Rotating counter-clockwise");
+    } else if (c == 'r') {
+        robot.rotateClockwise(255);
+        Serial.println("Rotating clockwise");
+    } else if (c == 's') {
+        robot.stopMotors();
+        Serial.println("Stopping motors");
+    }
+  }
 }
 
 

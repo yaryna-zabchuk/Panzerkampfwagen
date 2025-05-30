@@ -1,10 +1,12 @@
-#ifdef ESP8266_BOARD  // Only compile this file for ESP8266
+// #ifdef ESP8266_BOARD  // Only compile this file for ESP8266
 
 #include <ESP8266WiFi.h>
 #include <WebSocketsServer.h>
+#include <ArduinoJson.h>  // Add this library
 
-const char* ssid = "YOUR_WIFI_SSID";
-const char* password = "YOUR_WIFI_PASSWORD";
+// Access point credentials
+const char* ap_ssid = "ESP_Robot"; // Name of the WiFi network ESP will create
+const char* ap_password = "12345678"; // Password (min 8 characters)
 
 WebSocketsServer webSocket = WebSocketsServer(81);
 
@@ -16,21 +18,24 @@ void webSocketEvent(uint8_t client, WStype_t type, uint8_t * payload, size_t len
 
 void setup() {
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  Serial.println("WiFi connected. IP:");
-  Serial.println(WiFi.localIP());
+  
+  // Set up the ESP8266 as an access point
+  WiFi.softAP(ap_ssid, ap_password);
+  
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.println("AP Mode Setup Complete");
+  Serial.print("AP SSID: ");
+  Serial.println(ap_ssid);
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
 
   webSocket.begin();
   webSocket.onEvent(webSocketEvent);
+  Serial.println("WebSocket server started");
 }
 
 void loop() {
+
   webSocket.loop();
 
   // Simulate data
@@ -42,30 +47,70 @@ void loop() {
   static unsigned long lastSend = 0;
   if (millis() - lastSend > 500) {
     lastSend = millis();
-    String json = "{\"x\":" + String(x, 1) +
-                  ", \"y\":" + String(y, 1) +
-                  ", \"mine\":" + String(mineDetected ? 1 : 0) + "}";
+    
+    // Create JSON document
+    StaticJsonDocument<128> doc;
+    doc["x"] = x;
+    doc["y"] = y;
+    doc["mine"] = mineDetected ? 1 : 0;
+    
+    // Serialize JSON to string
+    String json;
+    serializeJson(doc, json);
+    
+    // Send the JSON string
     webSocket.broadcastTXT(json);
   }
 }
 
 void webSocketEvent(uint8_t client, WStype_t type, uint8_t * payload, size_t length) {
-  if (type == WStype_TEXT) {
-    String cmd = String((char *)payload);
-    Serial.println("Command: " + cmd);
-
-    if (cmd == "forward") {
-      // Move forward
-    } else if (cmd == "backward") {
-      // Turn left
-    } else if (cmd == "left") {
-      // Turn left
-    } else if (cmd == "right") {
-      // Stop motors
-    }
-    } else if (cmd == "right") {
-      // Stop motors
-    }
+  switch(type) {
+    case WStype_DISCONNECTED:
+      Serial.printf("[%u] Disconnected!\n", client);
+      break;
+      
+    case WStype_CONNECTED:
+      {
+        IPAddress ip = webSocket.remoteIP(client);
+        Serial.printf("[%u] Connected from %d.%d.%d.%d\n", client, ip[0], ip[1], ip[2], ip[3]);
+      }
+      break;
+      
+    case WStype_TEXT:
+      {
+        // Parse JSON command
+        StaticJsonDocument<200> doc;
+        DeserializationError error = deserializeJson(doc, payload, length);
+        
+        if (error) {
+          Serial.print(F("deserializeJson() failed: "));
+          Serial.println(error.f_str());
+          return;
+        }
+        
+        // Check if the command field exists
+        if (doc.containsKey("cmd")) {
+          String command = doc["cmd"];
+          Serial.println("Received cmd: " + command);
+          
+          if (command == "forward") {
+            Serial.println("f");
+          } else if (command == "backward") {
+            Serail.println("b");
+          } else if (command == "left") {
+            Serial.println("l");
+          } else if (command == "right") {
+            Serial.println("r")
+          } else if (command == "none") {
+            Serial.println('s')
+          } else {
+            Serial.println("Unknown command: " + command);
+          }
+        } else {
+          Serial.println("Invalid JSON: missing 'cmd`' field");
+        }
+      }
+      break;
   }
 }
 

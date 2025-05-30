@@ -156,6 +156,8 @@ Motor rMotor(6, 12, 11);
 Coordinates currentCoordinates;
 Robot robot(lMotor, rMotor, currentCoordinates);
 
+UltraSonic ultra(3, 4);
+
 void setup() {
     Serial.begin(115200);
 }
@@ -181,6 +183,13 @@ void loop() {
         Serial.println("Stopping motors");
     }
   }
+    static unsigned long lastUltraSend = 0;
+    if (millis() - lastUltraSend > 500) { // Раз на 500 мс
+        lastUltraSend = millis();
+        float distance = ultra.getDistance();
+        Serial.print("D:");  // Позначка для ідентифікації ультразвукових даних
+        Serial.println(distance, 2);
+    }
 }
 
 

@@ -10,6 +10,7 @@ const char* ap_password = "12345678"; // Password (min 8 characters)
 
 WebSocketsServer webSocket = WebSocketsServer(81);
 
+float distance_cm = 0.0;
 float x = 0.0, y = 0.0;
 bool mineDetected = false;
 
@@ -37,6 +38,20 @@ void setup() {
 void loop() {
 
   webSocket.loop();
+
+  while (Serial.available()) {
+    String line = Serial.readStringUntil('\n');
+    line.trim(); // Видалити пробіли та нові рядки
+
+    if (line.startsWith("D:")) {
+      distance_cm = line.substring(2).toFloat();
+      Serial.print("Distance from Arduino: ");
+      Serial.println(distance_cm);
+    } else {
+      // Інші дані, якщо потрібно
+      Serial.println("Other: " + line);
+    }
+  }
 
   // Simulate data
   x += 1.0;

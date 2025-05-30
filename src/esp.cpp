@@ -35,6 +35,7 @@ void setup() {
 }
 
 void loop() {
+
   webSocket.loop();
 
   // Simulate data
@@ -93,15 +94,15 @@ void webSocketEvent(uint8_t client, WStype_t type, uint8_t * payload, size_t len
           Serial.println("Received cmd: " + command);
           
           if (command == "forward") {
-            // Move forward
+            Serial.println("f");
           } else if (command == "backward") {
-            // Move backward
+            Serail.println("b");
           } else if (command == "left") {
-            // Turn left
+            Serial.println("l");
           } else if (command == "right") {
-            // Turn right
+            Serial.println("r")
           } else if (command == "none") {
-            // Stop motors
+            Serial.println('s')
           } else {
             Serial.println("Unknown command: " + command);
           }

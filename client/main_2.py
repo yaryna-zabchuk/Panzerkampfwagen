@@ -28,7 +28,7 @@ async def main():
     print("WebSocket connection established")
     
     # Run event loop
-    await qasync.QEventLoop().run_forever()
+    await loop.run_forever()
 
 
 if __name__ == "__main__":

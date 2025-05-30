@@ -177,7 +177,7 @@ void setup() {
     } else {
         Serial.println("MPU6050 connection failed.");
     }
-    
+
     // Initialize all pins
     pinMode(5, OUTPUT);  // Left motor analog pin
     pinMode(6, OUTPUT);  // Right motor analog pin
@@ -256,7 +256,7 @@ void loop() {
         executeMovement(currentMovement);
         Serial.println("Command timeout - stopping for safety");
     }
-    
+
     // Optional: Check for obstacles or other sensor data here
     // and override movement if necessary
 >>>>>>> b8032759db08062be52d728fbbc549d7348b83fe

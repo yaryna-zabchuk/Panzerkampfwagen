@@ -35,5 +35,6 @@
 **/.venv
 **/.env
 
+.pio
 .vscode
 __pycache__

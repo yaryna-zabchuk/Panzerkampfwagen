@@ -24,15 +24,15 @@ void setup() {
   WiFi.softAP(ap_ssid, ap_password);
   
   IPAddress myIP = WiFi.softAPIP();
-  Serial.println("AP Mode Setup Complete");
-  Serial.print("AP SSID: ");
-  Serial.println(ap_ssid);
-  Serial.print("AP IP address: ");
-  Serial.println(myIP);
+  // Serial.println("AP Mode Setup Complete");
+  // Serial.print("AP SSID: ");
+  // Serial.println(ap_ssid);
+  // Serial.print("AP IP address: ");
+  // Serial.println(myIP);
 
   webSocket.begin();
   webSocket.onEvent(webSocketEvent);
-  Serial.println("WebSocket server started");
+  // Serial.println("WebSocket server started");
 }
 
 void loop() {
@@ -81,13 +81,13 @@ void loop() {
 void webSocketEvent(uint8_t client, WStype_t type, uint8_t * payload, size_t length) {
   switch(type) {
     case WStype_DISCONNECTED:
-      Serial.printf("[%u] Disconnected!\n", client);
+      // Serial.printf("[%u] Disconnected!\n", client);
       break;
       
     case WStype_CONNECTED:
       {
         IPAddress ip = webSocket.remoteIP(client);
-        Serial.printf("[%u] Connected from %d.%d.%d.%d\n", client, ip[0], ip[1], ip[2], ip[3]);
+        // Serial.printf("[%u] Connected from %d.%d.%d.%d\n", client, ip[0], ip[1], ip[2], ip[3]);
       }
       break;
       
@@ -98,15 +98,15 @@ void webSocketEvent(uint8_t client, WStype_t type, uint8_t * payload, size_t len
         DeserializationError error = deserializeJson(doc, payload, length);
         
         if (error) {
-          Serial.print(F("deserializeJson() failed: "));
-          Serial.println(error.f_str());
+          // Serial.print(F("deserializeJson() failed: "));
+          // Serial.println(error.f_str());
           return;
         }
         
         // Check if the command field exists
         if (doc.containsKey("cmd")) {
           String command = doc["cmd"];
-          Serial.println("Received cmd: " + command);
+          // Serial.println("Received cmd: " + command);
           
           if (command == "forward") {
             Serial.println("f");

@@ -1,14 +1,16 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QKeyEvent
 import pyqtgraph as pg
+import asyncio
 
 
 class MineMap(QWidget):
-    def __init__(self):
+    def __init__(self, connection=None):
         super().__init__()
-
+        self.connection = connection
+        self.key_pressed = None  # Track currently pressed key
+        
         self.setWindowTitle("Mine Detection Map")
         self.resize(600, 600)
 
@@ -34,18 +36,35 @@ class MineMap(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_gui)
         self.timer.start(100)  # ms
+        
+        # Timer to send direction commands
+        self.command_timer = QTimer()
+        self.command_timer.timeout.connect(self.send_direction)
+        self.command_timer.start(200)  # 50ms
     
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key_W:
-            print("W pressed")
+            self.key_pressed = "forward"
         elif event.key() == Qt.Key_S:
-            print("S pressed")
-        if event.key() == Qt.Key_A:
-            print("A pressed")
+            self.key_pressed = "backward"
+        elif event.key() == Qt.Key_A:
+            self.key_pressed = "right"
         elif event.key() == Qt.Key_D:
-            print("D pressed")
-        else:
-            print(f"Other key: {event.text()}")
+            self.key_pressed = "left"
+        print(self.key_pressed)
+    
+    def keyReleaseEvent(self, event: QKeyEvent):
+        # Only clear if this key was the active one
+        if ((event.key() == Qt.Key_W and self.key_pressed == "forward") or
+            (event.key() == Qt.Key_S and self.key_pressed == "backward") or
+            (event.key() == Qt.Key_A and self.key_pressed == "left") or
+            (event.key() == Qt.Key_D and self.key_pressed == "right")):
+            self.key_pressed = "none"
+
+    def send_direction(self):
+        if self.connection and self.connection.is_websocket_open.is_set():
+            direction = self.key_pressed if self.key_pressed else "none"
+            asyncio.create_task(self.connection.send_data({"cmd": direction}))
 
     def update_gui(self):
         # Update robot position
@@ -66,25 +85,3 @@ class MineMap(QWidget):
 
     def add_mine(self, x, y):
         self.mines.append((x, y))
-
-# # Example usage
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = MineMap()
-#     window.show()
-
-#     # DEMO: simulate robot movement and mine detection
-#     import random
-
-#     def simulate():
-#         x = random.uniform(0, 100)
-#         y = random.uniform(0, 100)
-#         window.update_robot_position(x, y)
-#         if random.random() < 0.2:  # 20% chance to detect mine
-#             window.add_mine(x, y)
-
-#     sim_timer = QTimer()
-#     sim_timer.timeout.connect(simulate)
-#     sim_timer.start(500)  # Simulate every 500 ms
-
-#     sys.exit(app.exec_())

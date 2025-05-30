@@ -67,24 +67,24 @@ class MineMap(QWidget):
     def add_mine(self, x, y):
         self.mines.append((x, y))
 
-# Example usage
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MineMap()
-    window.show()
+# # Example usage
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = MineMap()
+#     window.show()
 
-    # DEMO: simulate robot movement and mine detection
-    import random
+#     # DEMO: simulate robot movement and mine detection
+#     import random
 
-    def simulate():
-        x = random.uniform(0, 100)
-        y = random.uniform(0, 100)
-        window.update_robot_position(x, y)
-        if random.random() < 0.2:  # 20% chance to detect mine
-            window.add_mine(x, y)
+#     def simulate():
+#         x = random.uniform(0, 100)
+#         y = random.uniform(0, 100)
+#         window.update_robot_position(x, y)
+#         if random.random() < 0.2:  # 20% chance to detect mine
+#             window.add_mine(x, y)
 
-    sim_timer = QTimer()
-    sim_timer.timeout.connect(simulate)
-    sim_timer.start(500)  # Simulate every 500 ms
+#     sim_timer = QTimer()
+#     sim_timer.timeout.connect(simulate)
+#     sim_timer.start(500)  # Simulate every 500 ms
 
-    sys.exit(app.exec_())
+#     sys.exit(app.exec_())

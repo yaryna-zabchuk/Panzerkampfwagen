@@ -7,10 +7,12 @@ class Connection:
     def __init__(self, esp_ip, esp_port):
         self.uri = f"ws://{esp_ip}:{esp_port}"
         self.data_queue = asyncio.Queue()
+        self.is_websocket_open = asyncio.Event()
 
     async def __connect(self):
         self.websocket = await websockets.connect(self.uri)
         print(f"Connected to {self.uri}")
+        self.is_websocket_open.set()
 
     async def __receive_data(self):
         try:
@@ -36,8 +38,8 @@ class Connection:
 
     async def send_data(self, data: dict):
         try:
-            data = json.dumps(data).encode('utf-8')
-            await self.websocket.send(data)
+            data_str = json.dumps(data)
+            await self.websocket.send(data_str)
         except websockets.exceptions.ConnectionClosed:
             print("Websocket was closed")
             await self.websocket.close()

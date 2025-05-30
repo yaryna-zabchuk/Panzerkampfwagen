@@ -66,54 +66,43 @@ class Motor {
       }
   };
 
-class Robot {
-  private:
-      Motor leftFrontMotor;
-      Motor rightFrontMotor;
-      Motor leftBackMotor;
-      Motor rightBackMotor;
-  public:
-      Robot(Motor leftFront, Motor rightFront, Motor leftBack, Motor rightBack): 
-      leftFrontMotor{leftFront}, 
-      rightFrontMotor{rightFront},
-      leftBackMotor{leftBack},
-      rightBackMotor{rightBack} { };
-  
-      void moveForward(int speed, float leftCoef = 1.0, float rightCoef = 1.0) {
-        leftFrontMotor.forward(speed * leftCoef);
-        rightFrontMotor.forward(speed * rightCoef);
-        leftBackMotor.forward(speed * leftCoef);
-        rightBackMotor.forward(speed * rightCoef);
-      }
-
-      void moveBackward(int speed, float leftCoef = 1.0, float rightCoef = 1.0) {
-        leftFrontMotor.backward(speed * leftCoef);
-        rightFrontMotor.backward(speed * rightCoef);
-        leftBackMotor.backward(speed * leftCoef);
-        rightBackMotor.backward(speed * rightCoef);
-      }
-
-      void stopMotors() {
-          leftFrontMotor.stop();
-          rightFrontMotor.stop();
-          leftBackMotor.stop();
-          rightBackMotor.stop();
-      }
-  
-      void moveRight(int speed) {
-        leftFrontMotor.forward(speed);
-        rightFrontMotor.backward(speed);
-        leftBackMotor.backward(speed);
-        rightBackMotor.forward(speed);
-      }
+  class Robot {
+    private:
+        Motor leftMotor;
+        Motor rightMotor;
+    public:
+        Robot(Motor leftM, Motor rightM): leftMotor{leftM}, rightMotor{rightM} { };
     
-      void moveLeft(int speed) {
-          leftFrontMotor.backward(speed);
-          rightFrontMotor.forward(speed);
-          leftBackMotor.forward(speed);
-          rightBackMotor.backward(speed);
-      }
-  };
+        void moveForward(int speed, float left, float right) {
+            leftMotor.forward(speed * left);
+            rightMotor.forward(speed * right);
+        }
+    
+        void stopMotors() {
+            leftMotor.stop();
+            rightMotor.stop();
+        }
+    
+        void rotateClockwise(int speed) {
+            leftMotor.forward(speed);  // Лівий мотор рухається вперед
+            rightMotor.backward(speed);    // Правий мотор рухається назад
+        }
+    
+        void rotateCounterClockwise(int speed) {
+            leftMotor.backward(speed);     // Лівий мотор рухається назад
+            rightMotor.forward(speed); // Правий мотор рухається вперед
+        }
+    
+        void moveBackward(int speed, float left, float right) {
+            leftMotor.backward(speed * left);  // Лівий мотор рухається назад з урахуванням коефіцієнта
+            rightMotor.backward(speed * right); // Правий мотор рухається назад з урахуванням коефіцієнта
+        }
+    };
+
+
+Motor lMotor(9, 7, 6);
+Motor rMotor(10, 4, 5);
+Robot robot(lMotor, rMotor);
 
 void setup() {
     Serial.begin(9600);

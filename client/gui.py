@@ -40,7 +40,7 @@ class MineMap(QWidget):
         # Timer to send direction commands
         self.command_timer = QTimer()
         self.command_timer.timeout.connect(self.send_direction)
-        self.command_timer.start(200)  # 50ms
+        self.command_timer.start(200)
     
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key_W:
@@ -48,17 +48,17 @@ class MineMap(QWidget):
         elif event.key() == Qt.Key_S:
             self.key_pressed = "backward"
         elif event.key() == Qt.Key_A:
-            self.key_pressed = "right"
-        elif event.key() == Qt.Key_D:
-            self.key_pressed = "left"
+            self.key_pressed = "right" # Inverted direction
+        elif event.key() == Qt.Key_D: 
+            self.key_pressed = "left" # Inverted direction
         print(self.key_pressed)
     
     def keyReleaseEvent(self, event: QKeyEvent):
         # Only clear if this key was the active one
         if ((event.key() == Qt.Key_W and self.key_pressed == "forward") or
             (event.key() == Qt.Key_S and self.key_pressed == "backward") or
-            (event.key() == Qt.Key_A and self.key_pressed == "left") or
-            (event.key() == Qt.Key_D and self.key_pressed == "right")):
+            (event.key() == Qt.Key_A and self.key_pressed == "right") or # Inverted direction
+            (event.key() == Qt.Key_D and self.key_pressed == "left")): # Inverted direction
             self.key_pressed = "none"
 
     def send_direction(self):

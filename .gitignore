@@ -35,6 +35,7 @@
 **/.venv
 **/.env
 
+#Aditional folders
 .pio
 .vscode
 __pycache__

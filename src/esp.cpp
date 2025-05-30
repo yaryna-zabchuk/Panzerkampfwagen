@@ -96,13 +96,13 @@ void webSocketEvent(uint8_t client, WStype_t type, uint8_t * payload, size_t len
           if (command == "forward") {
             Serial.println("f");
           } else if (command == "backward") {
-            Serail.println("b");
+            Serial.println("b");
           } else if (command == "left") {
             Serial.println("l");
           } else if (command == "right") {
-            Serial.println("r")
+            Serial.println("r");
           } else if (command == "none") {
-            Serial.println('s')
+            Serial.println('s');
           } else {
             Serial.println("Unknown command: " + command);
           }

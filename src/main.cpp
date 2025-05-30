@@ -1,4 +1,9 @@
 #include <Arduino.h>
+#include <Wire.h>
+#include <I2Cdev.h>
+#include <MPU6050.h>
+
+MPU6050 mpu;
 
 class UltraSonic {
   private:
@@ -111,7 +116,15 @@ class Robot {
   };
 
 void setup() {
-  // put your setup code here, to run once:
+    Serial.begin(9600);
+    Wire.begin();
+    mpu.initialize();
+
+    if (mpu.testConnection()) {
+        Serial.println("MPU6050 connected successfully.");
+    } else {
+        Serial.println("MPU6050 connection failed.");
+    }
 }
 
 void loop() {

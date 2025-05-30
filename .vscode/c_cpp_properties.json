@@ -10,13 +10,16 @@
             "includePath": [
                 "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/include",
                 "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/src",
+                "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/lib/MPU6050",
+                "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/lib/I2Cdev",
+                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "/home/marta/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/marta/.platformio/packages/framework-arduino-avr/variants/standard",
+                "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/.pio/libdeps/uno/I2Cdevlib-Core",
                 "/home/marta/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "/home/marta/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -24,13 +27,16 @@
                 "path": [
                     "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/include",
                     "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/src",
+                    "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/lib/MPU6050",
+                    "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/lib/I2Cdev",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "/home/marta/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/marta/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/.pio/libdeps/uno/I2Cdevlib-Core",
                     "/home/marta/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "/home/marta/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },

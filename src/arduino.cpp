@@ -102,8 +102,8 @@ class Motor {
     };
 
 
-Motor lMotor(9, 10, 5);
-Motor rMotor(11, 12, 6);
+Motor lMotor(5, 9, 10);
+Motor rMotor(6, 12, 11);
 Robot robot(lMotor, rMotor);
 
 void setup() {

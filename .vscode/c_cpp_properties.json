@@ -8,29 +8,29 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/Users/user/Documents/хакатони/Panzerkampfwagen/include",
-                "/Users/user/Documents/хакатони/Panzerkampfwagen/src",
-                "/Users/user/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "/Users/user/.platformio/packages/framework-arduino-avr/variants/standard",
-                "/Users/user/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                "/Users/user/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "/Users/user/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "/Users/user/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "/Users/user/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/include",
+                "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/src",
+                "/home/marta/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/marta/.platformio/packages/framework-arduino-avr/variants/standard",
+                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/marta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/Users/user/Documents/хакатони/Panzerkampfwagen/include",
-                    "/Users/user/Documents/хакатони/Panzerkampfwagen/src",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/variants/standard",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "/Users/user/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/include",
+                    "/home/marta/Documents/UCU/Other/OpenLab_competition/Panzerkampfwagen/src",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/marta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },
@@ -45,7 +45,7 @@
             ],
             "cStandard": "gnu11",
             "cppStandard": "gnu++11",
-            "compilerPath": "/Users/user/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "compilerPath": "/home/marta/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
             "compilerArgs": [
                 "-mmcu=atmega328p",
                 ""

@@ -1,5 +1,35 @@
 #include <Arduino.h>
 
+class UltraSonic {
+  private:
+    int trigPin;
+    int echoPin;
+
+  public:
+    UltraSonic(int trig, int echo) {
+      trigPin = trig;
+      echoPin = echo;
+      pinMode(trigPin, OUTPUT);
+      pinMode(echoPin, INPUT);
+    }
+
+    // Метод вимірювання відстані в сантиметрах
+    float getDistance() {
+      digitalWrite(trigPin, LOW);
+      delayMicroseconds(2);
+      digitalWrite(trigPin, HIGH);
+      delayMicroseconds(10);
+      digitalWrite(trigPin, LOW);
+
+      unsigned long duration = pulseIn(echoPin, HIGH, 8746);
+
+      float distance = (duration * 0.0343) / 2.0;
+
+      return (distance > 0.0) ? distance : 100.0;
+    }
+};
+
+
 class Motor {
   private:
       int analogPin;

@@ -31,7 +31,6 @@ class Motor {
       }
   };
 
-
 class Robot {
   private:
       Motor leftFrontMotor;
@@ -59,16 +58,19 @@ class Robot {
           rightBackMotor.stop();
       }
   
-      void rotateClockwise(int speed) {
-          leftMotor.forward(speed);  // Лівий мотор рухається вперед
-          rightMotor.backward(speed);    // Правий мотор рухається назад
+      void moveRight(int speed) {
+        leftFrontMotor.forward(speed);
+        rightFrontMotor.backward(speed);
+        leftBackMotor.backward(speed);
+        rightBackMotor.forward(speed);
       }
-  
-      void rotateCounterClockwise(int speed) {
-          leftMotor.backward(speed);     // Лівий мотор рухається назад
-          rightMotor.forward(speed); // Правий мотор рухається вперед
+    
+      void moveLeft(int speed) {
+          leftFrontMotor.backward(speed);
+          rightFrontMotor.forward(speed);
+          leftBackMotor.forward(speed);
+          rightBackMotor.backward(speed);
       }
-  
   };
 
 void setup() {

@@ -1,0 +1,12 @@
+--2025-05-30 13:52:38--  https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... failed: Network is unreachable.
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.109.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8889 (8.7K) [text/plain]
+Saving to: ‘99-platformio-udev.rules.1’
+
+     0K ........                                              100% 2.06M=0.004s
+
+2025-05-30 13:54:51 (2.06 MB/s) - ‘99-platformio-udev.rules.1’ saved [8889/8889]
+

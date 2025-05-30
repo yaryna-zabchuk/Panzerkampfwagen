@@ -81,6 +81,13 @@ class Robot {
         rightBackMotor.forward(speed * rightCoef);
       }
 
+      void moveBackward(int speed, float leftCoef = 1.0, float rightCoef = 1.0) {
+        leftFrontMotor.backward(speed * leftCoef);
+        rightFrontMotor.backward(speed * rightCoef);
+        leftBackMotor.backward(speed * leftCoef);
+        rightBackMotor.backward(speed * rightCoef);
+      }
+
       void stopMotors() {
           leftFrontMotor.stop();
           rightFrontMotor.stop();

@@ -34,3 +34,5 @@
 # Virtual enviroments
 **/.venv
 **/.env
+
+.vscode

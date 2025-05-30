@@ -5,7 +5,51 @@
 #include <I2Cdev.h>
 #include <MPU6050.h>
 
-MPU6050 mpu;
+class Coordinates {
+  private:
+    float x;
+    float y;
+    float angle;
+    char lastMove;
+    unsigned long lastTime;
+    float velocity; 
+    float angle_velocity;
+
+  public:
+    Coordinates() {
+      x = 0.0;
+      y = 0.0;
+      angle = 0.0;
+      lastMove = 's'; // 's' for stop, або інше значення за замовчуванням
+      lastTime = millis();
+      velocity = 1.0; // Початкова швидкість 0
+      angle_velocity = 1.0; // Початкова кутова швидкість 0
+    }
+    
+    void setLastMove(char newMove) {
+      lastMove = newMove;
+    }
+
+    void updateCoordinates() {
+      float currentTime = millis();
+      float delta_t = (currentTime - lastTime) / 1000.0;
+      lastTime = currentTime;
+
+      if (lastMove == 'f') {
+        float delta = velocity * delta_t;
+        x += delta * cos(angle);
+        y += delta * sin(angle);
+      } else if (lastMove == 'b') {
+        float delta = velocity * delta_t;
+        x -= delta * cos(angle);
+        y -= delta * sin(angle);
+      } else if (lastMove == 'r') {
+        angle -= angle_velocity * delta_t;
+      } else if (lastMove == 'l') {
+        angle += angle_velocity * delta_t;
+      }
+    }
+};
 
 class UltraSonic {
   private:
@@ -72,51 +116,48 @@ class Motor {
     private:
         Motor leftMotor;
         Motor rightMotor;
+        Coordinates coordinates;
     public:
-        Robot(Motor leftM, Motor rightM): leftMotor{leftM}, rightMotor{rightM} { };
+        Robot(Motor leftM, Motor rightM, Coordinates currentCoordinates): leftMotor{leftM}, rightMotor{rightM}, coordinates{currentCoordinates}{ };
     
         void moveForward(int speed, float left, float right) {
             leftMotor.forward(speed * left);
             rightMotor.forward(speed * right);
+            coordinates.setLastMove('f');
         }
     
         void stopMotors() {
             leftMotor.stop();
             rightMotor.stop();
+            coordinates.setLastMove('s');
         }
     
         void rotateClockwise(int speed) {
             leftMotor.forward(speed);  // Лівий мотор рухається вперед
             rightMotor.backward(speed);    // Правий мотор рухається назад
+            coordinates.setLastMove('r');
         }
     
         void rotateCounterClockwise(int speed) {
             leftMotor.backward(speed);     // Лівий мотор рухається назад
             rightMotor.forward(speed); // Правий мотор рухається вперед
+            coordinates.setLastMove('l');
         }
     
         void moveBackward(int speed, float left, float right) {
             leftMotor.backward(speed * left);  // Лівий мотор рухається назад з урахуванням коефіцієнта
             rightMotor.backward(speed * right); // Правий мотор рухається назад з урахуванням коефіцієнта
+            coordinates.setLastMove('b');
         }
     };
 
-
 Motor lMotor(5, 9, 10);
 Motor rMotor(6, 12, 11);
-Robot robot(lMotor, rMotor);
+Coordinates currentCoordinates;
+Robot robot(lMotor, rMotor, currentCoordinates);
 
 void setup() {
     Serial.begin(115200);
-
-    Wire.begin();
-    mpu.initialize();
-
-    if (mpu.testConnection()) {
-        Serial.println("MPU6050 connected successfully.");
-    } else {
-        Serial.println("MPU6050 connection failed.");
-    }
 }
 
 void loop() {

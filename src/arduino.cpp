@@ -91,9 +91,6 @@ class Motor {
           analogPin = anPin;
           frontPin = frPin;
           backPin = bcPin;
-          pinMode(analogPin, OUTPUT);
-          pinMode(frontPin, OUTPUT);
-          pinMode(backPin, OUTPUT);
       };
   
       void forward(int speed) {
@@ -154,90 +151,37 @@ class Motor {
         }
     };
 
-
 Motor lMotor(5, 9, 10);
 Motor rMotor(6, 12, 11);
 Coordinates currentCoordinates;
 Robot robot(lMotor, rMotor, currentCoordinates);
 
-// Variable to store current movement state
-char currentMovement = 's'; // Default to stopped
-unsigned long lastCommandTime = 0;
-const unsigned long COMMAND_TIMEOUT = 3000; // 3 seconds timeout for safety
-
-UltraSonic ultra(3, 4);
-
 void setup() {
     Serial.begin(115200);
-    
-    // Initialize all pins
-    pinMode(5, OUTPUT);  // Left motor analog pin
-    pinMode(6, OUTPUT);  // Right motor analog pin
-    pinMode(9, OUTPUT);  // Left motor front pin
-    pinMode(10, OUTPUT); // Left motor back pin
-    pinMode(11, OUTPUT); // Right motor back pin
-    pinMode(12, OUTPUT); // Right motor front pin
-    
-    // Start with motors stopped
-    robot.stopMotors();
-}
-
-void executeMovement(char command) {
-    switch(command) {
-        case 'f':
-            robot.moveForward(255, 1, 1);
-            Serial.println("Moving forward");
-            break;
-        case 'b':
-            robot.moveBackward(255, 1, 1);
-            Serial.println("Moving backward");
-            break;
-        case 'l':
-            robot.rotateCounterClockwise(255);
-            Serial.println("Rotating counter-clockwise");
-            break;
-        case 'r':
-            robot.rotateClockwise(255);
-            Serial.println("Rotating clockwise");
-            break;
-        case 's':
-        default:
-            robot.stopMotors();
-            Serial.println("Stopping motors");
-            break;
-    }
 }
 
 void loop() {
-    // Check for new commands
-    if (Serial.available()) {
-        char newCommand = Serial.read();
-        
-        // Filter valid commands only
-        if (newCommand == 'f' || newCommand == 'b' || 
-            newCommand == 'l' || newCommand == 'r' || newCommand == 's') {
-            
-            // Only update if command has changed
-            if (newCommand != currentMovement) {
-                currentMovement = newCommand;
-                executeMovement(currentMovement);
-            }
-            
-            lastCommandTime = millis();
-        }
-        
-        // Consume any additional bytes in the buffer
-        while (Serial.available()) {
-            Serial.read();
-        }
+  if (Serial.available()) {
+    char c = Serial.read();
+
+    if (c == 'f') {
+        robot.moveForward(255, 1, 1);
+        Serial.println("Moving forward");
+    } else if (c == 'b') {
+        robot.moveBackward(255, 1, 1);
+        Serial.println("Moving backward");
+    } else if (c == 'l') {
+        robot.rotateCounterClockwise(255);
+        Serial.println("Rotating counter-clockwise");
+    } else if (c == 'r') {
+        robot.rotateClockwise(255);
+        Serial.println("Rotating clockwise");
+    } else if (c == 's') {
+        robot.stopMotors();
+        Serial.println("Stopping motors");
     }
-    static unsigned long lastUltraSend = 0;
-    if (millis() - lastUltraSend > 500) { // Раз на 500 мс
-        lastUltraSend = millis();
-        float distance = ultra.getDistance();
-        Serial.print("D:");  // Позначка для ідентифікації ультразвукових даних
-        Serial.println(distance, 2);
-    }
+  }
 }
+
 
 #endif
